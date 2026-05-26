@@ -1,11 +1,11 @@
 ---
 name: fulcra-onboarding-demonstration
-description: "Handles the 'Time-to-Wow' demonstration phase of Fulcra onboarding by generating a custom themed SVG dashboard visualizing the user's recorded data."
+description: "Handles the 'Time-to-Wow' demonstration phase of Fulcra onboarding by generating a custom themed HTML dashboard visualizing the user's recorded data."
 ---
 
 # Fulcra Onboarding: Demonstration (Time-to-Wow)
 
-This skill handles Step 5 of the onboarding process. The goal is to immediately show the user the value of the data they just modeled and recorded by presenting it in a highly personalized, visual way using an inline SVG.
+This skill handles Step 5 of the onboarding process. The goal is to immediately show the user the value of the data they just modeled and recorded by presenting it in a highly personalized, visual way using an inline HTML dashboard.
 
 ## Workflow
 
@@ -21,12 +21,22 @@ This skill handles Step 5 of the onboarding process. The goal is to immediately 
    - Suggest 2-3 creative, distinct options based on your sense of their personality and the data they are tracking (e.g., cyberpunk, fantasy, newspaper, modern fashion magazine, professional workplace tool, retro 8-bit).
    - Keep this interaction brief and engaging.
 
-3. **Generate SVG Dashboard:**
-   - Once a theme is chosen, generate a custom SVG file visualizing the data.
+3. **Generate HTML Dashboard:**
+   - Once a theme is chosen, generate a custom HTML file visualizing the data.
+   - **Crucial: The "Wow" Factor:** Because the user has likely only recorded a single piece of data, the design must carry the experience. Do not generate a boring standard chart. 
+   - **Design Directives:**
+     - **Metaphorical UI:** Design a UI that fits the data type and theme (e.g., a retro receipt for coffee, a glowing HUD for fitness, a vintage polaroid for a mood check-in).
+     - **Rich Styling:** Use embedded CSS to create a highly polished look. Leverage Google Fonts, CSS gradients, complex box-shadows, and layout techniques (Flexbox/Grid).
+     - **CSS Animations:** Include simple CSS animations (e.g., pulsing glows, slide-ins, typing effects) to make the dashboard feel alive.
+     - **Intent-Driven Copy:** Include clever, personalized micro-copy in the dashboard that nods to the user's broader intent and the specific theme.
+     - **Visual Extensibility:** Design the layout to explicitly convey that this is a living, expandable surface. Include UI hints like "Empty Slots," grayed-out "Coming Soon" sections, or placeholder modules for other related data types they might want to track in Fulcra next.
    - Ensure the dashboard visually incorporates the actual data retrieved in Step 1.
-   - Present the SVG to the user directly in the chat thread (e.g., by writing it to the workspace and attaching it to your message).
-   - The design should heavily reflect their chosen aesthetic and make the data look interesting.
+   - **Bulletproof Presentation:** To avoid permission or rendering errors, present the HTML to the user using this resilient approach:
+     1. **Primary Display (Optional):** If you are confident you can display the dashboard in a richer way (e.g., using a native Canvas integration or Control UI embed), you may attempt it. However, do not attempt to reconfigure the agent's settings to achieve this.
+     2. **File Fallback (Required):** Always save the generated HTML to a file in the workspace (e.g., `fulcra-dashboard.html`). Output the absolute path and tell the user they can open it directly in their web browser (e.g., `open /absolute/path/to/fulcra-dashboard.html`) to view the final rendered result. Do not output the raw HTML source code in the chat, as this clutters the experience.
 
 ## Handoff
 
-Once the SVG dashboard has been successfully generated and presented, wait for the user's reaction. After acknowledging their response, return control to the main `fulcra-onboarding` flow to handle the final App Download handoff.
+When presenting the HTML dashboard, explicitly emphasize that this is a living, iterative document. Tell the user they can ask you to tweak the design, add new metrics, or define entirely new data types to record in Fulcra right now.
+
+Once the dashboard has been successfully generated and presented, wait for the user's reaction. After acknowledging their response, return control to the main `fulcra-onboarding` flow to handle the final App Download handoff.
